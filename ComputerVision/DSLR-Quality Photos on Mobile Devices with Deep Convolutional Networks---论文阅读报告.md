@@ -180,7 +180,7 @@ CNN转换网络中的所有层都有64个通道，并且后面跟着一个ReLU�
 
 同时，将该网络增强后图像、人工增强后图像、与实际高质量DSLR图像混杂一起，请人们判别，发现人们已难以区分其中差别：
 
-![image-20240317200342591](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317200342591.png)
+![image-20240317200342591](https://s2.loli.net/2024/03/18/mGB3SYN7kDs61Xv.png)
 
 ##### 3.该方法尚存的限制
 
