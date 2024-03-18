@@ -16,7 +16,9 @@
 
   个人理解：该网络可以看作一个GANs(生成对抗网络)，一边变换生成图片，一边判断。
 
-  <img src="http://people.ee.ethz.ch/~ihnatova/assets/img/architecture.jpg" alt="img" style="zoom: 25%;" />
+  <img src="https://s2.loli.net/2024/03/18/lvIWLaoqmRQtxCO.jpg" style="zoom:67%;" />
+
+  
 
 - **复合损失函数：** 在图像增强这一任务中，一般的损失函数(MSE/MAE/Cross Entrop Loss/NLL等)均无法使用。为此，就像YOLO算法损失函数由边界框损失、类别预测损失、目标存在概率损失三部分构成一样，论文作者提出了复合颜色损失(Color loss)、纹理损失(Texture loss)、推算内容损失（Content loss)的损失函数。先分别计算三个loss，
 
@@ -24,7 +26,7 @@
 
   再进行复合，并将复合损失传递给神经网络。
 
-  ![image-20240317162159564](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317162159564.png)
+  ![image-20240317162159564](https://s2.loli.net/2024/03/18/WX4tPuZha5esKn3.png)
 
  
 
@@ -34,9 +36,9 @@
 
 DPED由三部智能手机和一台数码单反相机在野外同步拍摄的照片(为了确保所有相机同时拍摄照片，这些设备被安装在一个三脚架上，并通过无线控制系统远程激活)组成。用于收集数据的设备下表所示，图中示例如下：
 
-<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317183116349.png" alt="image-20240317183116349" style="zoom:67%;" />
+<img src="https://s2.loli.net/2024/03/18/9xzSvrDVPRIBwQT.png" alt="image-20240317183116349" style="zoom:67%;" />
 
-<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317183044059.png" alt="image-20240317183044059" style="zoom:80%;" />
+<img src="https://s2.loli.net/2024/03/18/CVpnPthTEBjQrgK.png" alt="image-20240317183044059" style="zoom:80%;" />
 
 总共，在3周内收集了22K张照片，其中索尼智能手机4549张照片，iPhone 5727张照片，佳能和黑莓相机6015张照片。这些照片是白天在各种不同的地方、在不同的照明和天气条件下、由自动模式拍摄的。在整个拍摄过程中，所有图片均使用了各相机的默认设置。
 
@@ -54,7 +56,7 @@ DPED由三部智能手机和一台数码单反相机在野外同步拍摄的照�
 
    效果如下：
 
-   <img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317184249819.png" alt="image-20240317184249819" style="zoom: 67%;" />
+   <img src="https://s2.loli.net/2024/03/18/XSPscgriaVZpFRx.png" alt="image-20240317184249819" style="zoom: 67%;" />
 
 在对齐的高分辨率图像上训练CNN是不可行的，因此从这些照片中提取大小为100×100px的patch。据论文作者的初步实验表明，更大的patch大小并不会带来更好的性能，同时需要更多的计算资源。
 
@@ -80,17 +82,17 @@ DPED由三部智能手机和一台数码单反相机在野外同步拍摄的照�
 
 引入一个深度残差CNN网络 $F_W$(模型权重参数为$W$),来学习$I_s$到$I_t$​的转换函数，使得训练集$F_W(I_s),I_t$，两者的复合损失最小
 
-<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317185708026.png" alt="image-20240317185708026" style="zoom:67%;" />
+<img src="https://s2.loli.net/2024/03/18/pl9crduTCJV2DeH.png" alt="image-20240317185708026" style="zoom:67%;" />
 
 #### 2. Loss function设计
 
 ##### 2.1 Color loss颜色损失
 
-为了测量增强图像和目标图像之间的Color loss，论文建议应用高斯模糊(见图5)并计算得到的表示之间的欧几里得距离。在cnn的使用下，这相当于使用一个额外的卷积层，其中有一个固定的高斯核，后面跟着均方误差(MSE)函数。Color loss可以写成:<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317190100545.png" alt="image-20240317190100545" style="zoom:80%;" />
+为了测量增强图像和目标图像之间的Color loss，论文建议应用高斯模糊(见图5)并计算得到的表示之间的欧几里得距离。在cnn的使用下，这相当于使用一个额外的卷积层，其中有一个固定的高斯核，后面跟着均方误差(MSE)函数。Color loss可以写成:<img src="https://s2.loli.net/2024/03/18/IDBaPeOR7uovC5j.png" alt="image-20240317190100545" style="zoom:80%;" />
 
 这种损失背后的思路是评估图像之间的亮度，对比度和主要颜色的差异，同时消除Texture和Content的比较。因此，作者通过视觉检测固定一个常数σ作为最小值，以确保纹理和内容被丢弃。
 
-如下图演示了，图像对(X, Y)的MSE和颜色损失，其中Y = X在随机方向上移动了n个像素<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317190354989.png" alt="image-20240317190354989" style="zoom:50%;" />
+如下图演示了，图像对(X, Y)的MSE和颜色损失，其中Y = X在随机方向上移动了n个像素<img src="https://s2.loli.net/2024/03/18/6fIe1uHUb8pGtzO.png" alt="image-20240317190354989" style="zoom:50%;" />
 
 由此可以观察到，color loss对小的失真(小于等于2像素)几乎不敏感。对更高的位移(3-5px)，它仍然比MSE小5-10倍，而对于更大的位移，它表现出类似的幅度和行为。由此说明color loss函数设计的高效：**迫使增强图像具有与目标图像相同的颜色分布，同时容忍小的像素位置不匹配**。
 
@@ -106,7 +108,7 @@ Texture Loss不用像Color Loss一样用预先设定的损失函数，而是使�
 
 鉴别器是在{phone, DSLR}图像对上预训练，然后与所提出的生成器联合训练，作者这里还是用了GANs的常规设计方法
 
-<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317191927588.png" alt="image-20240317191927588" style="zoom:67%;" />
+<img src="https://s2.loli.net/2024/03/18/MNgq8dI9in1YJQX.png" alt="image-20240317191927588" style="zoom:67%;" />
 
 ##### 2.3 Content Loss内容损失
 
@@ -118,23 +120,23 @@ Texture Loss不用像Color Loss一样用预先设定的损失函数，而是使�
 
 设ψj()为函数的VGG-19 CNN网络第j层卷积后得到的特征映射，内容损失定义为增强图像的特征表示与目标图像之间的欧氏距离:
 
-![image-20240317192614520](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317192614520.png)
+![image-20240317192614520](https://s2.loli.net/2024/03/18/MkNdFxOTl614XtQ.png)
 
 #####  2.4 Total variation loss 总共变换损失
 
 除了之前的损失外，作者还添加了总变化(TV)损失，以增强生成图像的空间平滑性：
 
-![image-20240317192923417](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317192923417.png)
+![image-20240317192923417](https://s2.loli.net/2024/03/18/6vmrqH2S8a5flTu.png)
 
 ##### 2.5 Total loss (最终复合，总的损失函数)
 
 最终损失被定义为以前损失的加权和：
 
-![image-20240317193033575](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317193033575.png)
+![image-20240317193033575](https://s2.loli.net/2024/03/18/pWUfmYyjN1waCnt.png)
 
 ### 四、 生成、鉴别CNN网络设计
 
-![image-20240317193140386](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317193140386.png)
+![image-20240317193140386](https://s2.loli.net/2024/03/18/uiGLEgl63owbSxA.png)
 
 ##### 1. 图像增强网络Image enhancement network
 
@@ -156,7 +158,7 @@ CNN转换网络中的所有层都有64个通道，并且后面跟着一个ReLU�
 
 输出$Loss_{content}$的网络，为经典VGG-19网络
 
-![VGG-19 Convolutional Neural Network - All about Machine Learning](https://blog.techcraft.org/wp-content/uploads/2021/03/vgg19-architecture2.png)
+![VGG-19 Convolutional Neural Network - All about Machine Learning](https://s2.loli.net/2024/03/18/nSQNU97KLZ2k3oF.png)
 
 ### 五、训练设计与实验结果
 
@@ -168,13 +170,13 @@ CNN转换网络中的所有层都有64个通道，并且后面跟着一个ReLU�
 
 ##### 2. 实验结果
 
-![image-20240317195247570](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317195247570.png)
+![image-20240317195247570](https://s2.loli.net/2024/03/18/bVuOYI2Te7ioalc.png)
 
 可以看到，论文作者网络(倒数第二张)图与DSLR高质量图间的差异已经较小。
 
 并且，论文作者将该方法与其他图像增强方法比较，达到以下优秀的结果：
 
-![image-20240317195912716](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317195912716.png)
+![image-20240317195912716](https://s2.loli.net/2024/03/18/45DZpc9fbs7EtiG.png)
 
 同时，将该网络增强后图像、人工增强后图像、与实际高质量DSLR图像混杂一起，请人们判别，发现人们已难以区分其中差别：
 
@@ -196,7 +198,7 @@ CNN转换网络中的所有层都有64个通道，并且后面跟着一个ReLU�
 
    > A. Ignatov, N. Kobyshev, R. Timofte, K. Vanhoey, and L. Van Gool. Wespe: Weakly supervised photo enhancer for digital cameras. 2017
 
-<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240317200610710.png" alt="image-20240317200610710" style="zoom:80%;" />
+<img src="https://s2.loli.net/2024/03/18/FfxoP268EdsAKNh.png" alt="image-20240317200610710" style="zoom:80%;" />
 
 ### 六、论文总结
 
